@@ -472,7 +472,7 @@ async function setWranglerSecrets(config) {
 				"npx",
 				["wrangler", "secret", "put", "CLOUDFLARE_API_TOKEN"],
 				{
-					input: config.userApiToken,
+					input: String(config.userApiToken),
 					stdio: "pipe",
 					cwd: PROJECT_ROOT,
 				},
@@ -494,7 +494,7 @@ async function setWranglerSecrets(config) {
 				"npx",
 				["wrangler", "secret", "put", "DISPATCH_NAMESPACE_API_TOKEN"],
 				{
-					input: dispatchToken,
+					input: String(dispatchToken),
 					stdio: "pipe",
 					cwd: PROJECT_ROOT,
 				},
