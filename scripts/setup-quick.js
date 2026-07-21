@@ -12,7 +12,7 @@
  * Uses the temporary CF_API_TOKEN from deploy flow to create permanent resources.
  */
 
-const { execSync } = require("child_process");
+const { execSync, execFileSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
@@ -468,9 +468,11 @@ async function setWranglerSecrets(config) {
 	// Set user-provided API token if available (for custom hostnames)
 	if (config.userApiToken) {
 		try {
-			execSync(
-				`echo "${config.userApiToken}" | npx wrangler secret put CLOUDFLARE_API_TOKEN`,
+			execFileSync(
+				"npx",
+				["wrangler", "secret", "put", "CLOUDFLARE_API_TOKEN"],
 				{
+					input: config.userApiToken,
 					stdio: "pipe",
 					cwd: PROJECT_ROOT,
 				},
@@ -488,9 +490,11 @@ async function setWranglerSecrets(config) {
 	const dispatchToken = config.runtimeToken || config.apiToken;
 	if (dispatchToken) {
 		try {
-			execSync(
-				`echo "${dispatchToken}" | npx wrangler secret put DISPATCH_NAMESPACE_API_TOKEN`,
+			execFileSync(
+				"npx",
+				["wrangler", "secret", "put", "DISPATCH_NAMESPACE_API_TOKEN"],
 				{
+					input: dispatchToken,
 					stdio: "pipe",
 					cwd: PROJECT_ROOT,
 				},
